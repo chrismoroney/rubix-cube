@@ -121,7 +121,7 @@ export default function Cube() {
       }}>
         <ambientLight intensity={0.8} />
         <pointLight position={[10, 10, 10]} />
-        <group rotation={[Math.PI / 4, Math.PI / 4, 0]}>
+        <group rotation={[Math.PI / 4, Math.PI / 4, 0]} scale={0.8}>
           {cubes.map(cube => (
             <SmallCube
               key={cube.id}
