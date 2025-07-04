@@ -4,7 +4,7 @@ This is a web-based, interactive 3D Rubik's Cube application built with Next.js,
 
 ## Live Demo
 
-[Link to your deployed application]
+[Click here for a live demo](https://rubix-cube-7tzy2ywtn-chrismoroneys-projects.vercel.app/)
 
 ## Features
 
@@ -32,11 +32,11 @@ To get a local copy up and running, follow these simple steps.
 
 1.  Clone the repo
     ```sh
-    git clone https://github.com/your_username/your_repository.git
+    git clone https://github.com/chrismoroney/rubix-cube.git
     ```
 2.  Navigate to the project directory
     ```sh
-    cd your_repository
+    cd rubix-cube
     ```
 3.  Install NPM packages
     ```sh
