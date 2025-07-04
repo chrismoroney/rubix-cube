@@ -115,7 +115,7 @@ export default function Cube() {
 
   return (
     <div className="w-full h-screen">
-      <Canvas onPointerMiss={() => {
+      <Canvas onPointerMissed={() => {
         setSelectedSlice(null)
         selectionCycle.current = { cubeId: null, axes: [], index: 0 }
       }}>
