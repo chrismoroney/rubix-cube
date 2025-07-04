@@ -4,7 +4,7 @@ This is a web-based, interactive 3D Rubik's Cube application built with Next.js,
 
 ## Live Demo
 
-[Link to your deployed application]
+[Click here for a live demo](https://rubix-cube-7tzy2ywtn-chrismoroneys-projects.vercel.app/)
 
 ## Features
 
