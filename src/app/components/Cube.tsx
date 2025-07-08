@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Plane } from '@react-three/drei'
 import * as THREE from 'three'
-import { getInitialCubes, getGridCoords } from './cube-helpers'
+import { getInitialCubes, getGridCoords, performRotation } from './cube-helpers'
 import { SmallCubeProps } from './cube-types'
 
 const HIGHLIGHT_COLOR = new THREE.Color('#ffc800')
@@ -64,7 +64,7 @@ export default function Cube() {
     const gridCoords = getGridCoords(clickedCube.position)
 
     if (clickedId !== selectionCycle.current.cubeId) {
-      const faceAxis = ['x', 'y', 'z'].find(ax => Math.abs(normal[ax]) === 1)
+      const faceAxis = ['x', 'y', 'z'].find(ax => Math.abs(normal[ax as 'x' | 'y' | 'z']) === 1)
       const otherAxes = ['x', 'y', 'z'].filter(ax => ax !== faceAxis)
       selectionCycle.current = { cubeId: clickedId, axes: [faceAxis, ...otherAxes].filter(Boolean) as ('x' | 'y' | 'z')[], index: 0 }
     } else {
@@ -76,29 +76,11 @@ export default function Cube() {
   }
 
   const rotateSlice = (direction: number) => {
-    if (!selectedSlice) return
-    const { axis, slice } = selectedSlice
-    
-    const angle = (Math.PI / 2) * direction
-    const rotationMatrix = new THREE.Matrix4()
-    if (axis === 'x') rotationMatrix.makeRotationX(angle)
-    if (axis === 'y') rotationMatrix.makeRotationY(angle)
-    if (axis === 'z') rotationMatrix.makeRotationZ(angle)
-
-    setCubes(prevCubes =>
-      prevCubes.map(cube => {
-        const gridCoords = getGridCoords(cube.position)
-        if (gridCoords[axis] === slice) {
-          const newPosition = cube.position.clone().applyMatrix4(rotationMatrix)
-          const newRotation = new THREE.Euler().setFromQuaternion(
-            new THREE.Quaternion().setFromEuler(cube.rotation).multiply(new THREE.Quaternion().setFromRotationMatrix(rotationMatrix))
-          )
-          return { ...cube, position: newPosition, rotation: newRotation }
-        }
-        return cube
-      })
-    )
-  }
+    if (!selectedSlice) return;
+    const { axis, slice } = selectedSlice;
+    const newCubes = performRotation(cubes, axis, slice, direction);
+    setCubes(newCubes);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -111,7 +93,7 @@ export default function Cube() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedSlice])
+  }, [selectedSlice, cubes])
 
   return (
     <div className="w-full h-screen">
@@ -148,4 +130,5 @@ export default function Cube() {
     </div>
   )
 }
+
 
